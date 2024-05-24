@@ -33,3 +33,7 @@
 .product a:hover {
   text-decoration: underline;
 }
+.maximumNotice {
+  font-size: 12px;
+  margin-bottom: 7px;
+}
