@@ -27,6 +27,14 @@ const cartSlice = createSlice({
                 state.cartItems[id]++;
             else
                 state.cartItems[id] = 1;
+        },
+        cartItemChangeQuantity:(state,action)=>{
+            state.cartItems[action.payload.id] = action.payload.selectedQuantity
+        },
+        cartItemRemove:(state,action)=>{
+            delete state.cartItems[action.payload];
+            state.productsFullInfo = state.productsFullInfo.filter((el)=>
+            el.id !== action.payload)
         }
     },
     extraReducers:(builder)=>{
@@ -52,5 +60,5 @@ const getCartTotalQuantity = (state:RootState)=>{
     return totalQuantity;
 }
 export {getCartTotalQuantity};
-export const {addToCart} = cartSlice.actions;
+export const {addToCart , cartItemChangeQuantity,cartItemRemove} = cartSlice.actions;
 export default cartSlice.reducer;

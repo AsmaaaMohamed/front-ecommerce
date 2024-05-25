@@ -3,8 +3,8 @@ import { Container } from "react-bootstrap";
 import { Category } from "@components/ecommerce";
 import { useAppDispatch, useAppSelector } from "@store/hooks";
 import { useEffect } from "react";
-import actGetCategories from "@store/categories/act/actGetCategories";
-import Loading from "@components/feedback/Loading/Loading";
+import { actGetCategories } from "@store/categories/categoriesSlice";
+import { Loading } from "@components/feedback";
 import { GridList, Heading } from "@components/common";
 
 
