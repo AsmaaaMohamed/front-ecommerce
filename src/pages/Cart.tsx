@@ -24,14 +24,14 @@ const Cart = () => {
   },[dispatch]);
   return (
     <>
-      <Heading>Cart</Heading>
+      <Heading>My Cart</Heading>
       <Loading status={loading} error={error}>
         {cartItemsFullInfo.length >0 ?(
           <>
             <CartItemList cartItems={cartItemsFullInfo} changeQuantityHandler={changeQuantityHandler} removeITemHandler={removeITemHandler}/>
             <CartSubTotalPrice cartItems={cartItemsFullInfo}/>
           </>) :
-        "Your Cart is Empty"
+        "My Cart is Empty"
         }
       </Loading>
     </>

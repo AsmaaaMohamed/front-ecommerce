@@ -5,17 +5,29 @@ import { Link } from "react-router-dom";
 import { useAppDispatch } from "@store/hooks";
 import { addToCart } from "@store/cart/cartSlice";
 import { memo, useEffect, useState } from "react";
-const { product, productImg,maximumNotice } = styles;
+import Like from '@assets/svg/like.svg?react';
+import LikeFill from '@assets/svg/like-fill.svg?react';
+import { actLikeToggle } from "@store/wishlist/wishSlice";
 
-const Product = memo(({ id,title ,max, price, quantity, img}:TProduct) => {
+const { product, productImg,maximumNotice , wishListBtn} = styles;
+
+const Product = memo(({ id,title ,max, price, quantity, img,isLiked}:TProduct) => {
   const dispatch = useAppDispatch();
   const[isBtnDisabled , setIsBtnDisabled] = useState(false);
+  const[isLoading , setIsLoading] = useState(false);
   const remainingQuantity = max - (quantity ?? 0);
   const quantityReachedMax = remainingQuantity <=0 ? true : false;
   const addToCartHandler=()=>{
     dispatch(addToCart(id));
     setIsBtnDisabled(true);
   };
+  const likeTogleHandler=()=>{
+    if(!isLoading){
+    setIsLoading(true);
+    dispatch(actLikeToggle(id)).unwrap()
+    .then(()=> setIsLoading(false))
+    .catch(()=> setIsLoading(false));
+  }}
   useEffect(()=>{
     if (!isBtnDisabled) {
       return;
@@ -29,6 +41,9 @@ const Product = memo(({ id,title ,max, price, quantity, img}:TProduct) => {
   },[isBtnDisabled]);
   return (
     <div className={product}>
+      <div className={wishListBtn} onClick={likeTogleHandler}>
+       {isLoading?<Spinner size="sm"/> :isLiked ? <LikeFill/> : <Like/>}
+      </div>
       <Link to={``}>
         <div className={productImg}>
           <img
