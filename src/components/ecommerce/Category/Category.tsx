@@ -1,7 +1,7 @@
 
 import { Link } from "react-router-dom";
 import styles from "./styles.module.css";
-import { TCategory } from "@customTypes/category";
+import { TCategory } from "@types";
 const { category, categoryImg, categoryTitle } = styles;
 
 

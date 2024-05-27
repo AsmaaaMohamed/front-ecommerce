@@ -1,8 +1,7 @@
-import { TProduct } from "@customTypes/product";
 import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../index";
 import actGetProductsById from "./act/actGetProductsById";
-import { TLoading } from "@customTypes/shared";
+import { TLoading, TProduct , isString } from "@types";
 
 interface ICartState{
     cartItems:{[key:number]:number};
@@ -35,7 +34,10 @@ const cartSlice = createSlice({
             delete state.cartItems[action.payload];
             state.productsFullInfo = state.productsFullInfo.filter((el)=>
             el.id !== action.payload)
-        }
+        },
+        cleanCartProductsFullInfo: (state) => {
+          state.productsFullInfo = [];
+        },
     },
     extraReducers:(builder)=>{
         builder.addCase(actGetProductsById.pending , (state)=>{
@@ -49,7 +51,7 @@ const cartSlice = createSlice({
           })
         .addCase(actGetProductsById.rejected,(state, action)=>{
             state.loading = "failed";
-            if (action.payload && typeof action.payload === "string")
+            if (isString(action.payload) )
                 state.error = action.payload;
         })
     }
@@ -60,5 +62,5 @@ const getCartTotalQuantity = (state:RootState)=>{
     return totalQuantity;
 }
 export {getCartTotalQuantity};
-export const {addToCart , cartItemChangeQuantity,cartItemRemove} = cartSlice.actions;
+export const {addToCart , cartItemChangeQuantity,cartItemRemove, cleanCartProductsFullInfo} = cartSlice.actions;
 export default cartSlice.reducer;

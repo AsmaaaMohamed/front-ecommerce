@@ -1,8 +1,7 @@
-import { TProduct } from "@customTypes/product";
+import { TProduct , TLoading, isString} from "@types";
 import { createSlice } from "@reduxjs/toolkit";
 import actLikeToggle from "./act/actLikeToggle";
 import actGetWishlistFullInfo from "./act/actGetWishlistFullInfo";
-import { TLoading } from "@customTypes/shared";
 
 interface IWishlistState{
     wishlistItemsId:number[];
@@ -53,7 +52,7 @@ const wishSlice = createSlice({
             state.productsFullInfo = action.payload;
           })
         .addCase(actGetWishlistFullInfo.rejected,(state, action)=>{
-            if (action.payload && typeof action.payload === "string")
+            if (isString(action.payload))
                 state.error = action.payload;
         })
     }

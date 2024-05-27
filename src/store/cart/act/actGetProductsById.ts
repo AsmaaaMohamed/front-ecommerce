@@ -1,7 +1,8 @@
-import { TProduct } from "@customTypes/product";
+import { TProduct } from "@types";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "@store/index";
 import axios from "axios";
+import { axiosErrorHandler } from "@utils";
 
 type TResponse = TProduct[];
 const actGetProductsById = createAsyncThunk(
@@ -19,10 +20,7 @@ const actGetProductsById = createAsyncThunk(
             return response.data;
         }
         catch(error){
-            if(axios.isAxiosError(error))
-                return rejectWithValue(error.response?.data.message || error.message);
-            else
-                return rejectWithValue("An unexpected error");
+            return rejectWithValue(axiosErrorHandler(error) );
         }
     }
 );

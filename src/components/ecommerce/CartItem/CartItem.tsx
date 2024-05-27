@@ -1,6 +1,6 @@
 import { Button, Form } from "react-bootstrap";
 import styles from "./styles.module.css";
-import { TProduct } from "@customTypes/product";
+import { TProduct } from "@types";
 import React, { memo } from "react";
 const{cartItem,product, productImg, productInfo, cartItemSelection} = styles;
 
