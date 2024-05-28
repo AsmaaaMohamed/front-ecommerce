@@ -2,6 +2,8 @@ import { createBrowserRouter,RouterProvider } from 'react-router-dom';
 import { lazy, Suspense } from 'react';
 //layouts
 const MainLayout = lazy(() => import("@layouts/MainLayout/MainLayout"));
+// components
+import { LottieHandler, PageSuspenseFallback } from "@components/feedback";
 // pages
 const Home = lazy(() => import("@pages/Home"));
 const Wishlist = lazy(() => import("@pages/Wishlist"));
@@ -16,88 +18,93 @@ import Error from "@pages/Error";
 const router = createBrowserRouter([
     {
         path:"/",
-        element:<Suspense fallback="loading please wait..">
+        element:<Suspense
+                      fallback={
+                        <div style={{ marginTop: "10%" }}>
+                          <LottieHandler type="loading" message="Loading please wait..." />
+                        </div>
+                      }>
                     <MainLayout />
                 </Suspense>,
         errorElement:<Error/>,
-        children:[
-            {
-                index:true,
-                element:(
-                    <Suspense fallback="loading please wait..">
-                      <Home />
-                    </Suspense>
-                  ),
+        children: [
+          {
+            index: true,
+            element: (
+              <PageSuspenseFallback>
+                <Home />
+              </PageSuspenseFallback>
+            ),
+          },
+          {
+            path: "/cart",
+            element: (
+              <PageSuspenseFallback>
+                <Cart />
+              </PageSuspenseFallback>
+            ),
+          },
+          {
+            path: "/wishlist",
+            element: (
+              <PageSuspenseFallback>
+                <Wishlist />
+              </PageSuspenseFallback>
+            ),
+          },
+          {
+            path: "/categories",
+            element: (
+              <PageSuspenseFallback>
+                <Categories />
+              </PageSuspenseFallback>
+            ),
+          },
+          {
+            path: "/categories/products/:prefix",
+            element: (
+              <PageSuspenseFallback>
+                <Products />
+              </PageSuspenseFallback>
+            ),
+            loader: ({ params }) => {
+              if (
+                typeof params.prefix !== "string" ||
+                !/^[a-z]+$/i.test(params.prefix)
+              ) {
+                throw new Response("Bad Request", {
+                  statusText: "Category not found",
+                  status: 400,
+                });
+              }
+              return true;
             },
-            {
-                path:"categories",
-                element:(
-                    <Suspense fallback="loading please wait..">
-                      <Categories />
-                    </Suspense>
-                  ),
-            },
-            {
-                path:"categories/products/:prefix",
-                element:(
-                    <Suspense fallback="loading please wait..">
-                      <Products />
-                    </Suspense>
-                  ),
-                loader:({params})=>{
-                    if(
-                        typeof params.prefix !=='string' ||
-                        !/^[a-z]+$/i.test(params.prefix)
-                    ){
-                        throw new Response("Bad Request",{
-                            statusText:"Category not found",
-                            status:400
-                        });
-                    }
-                    return true;
-                }
-            },
-            {
-                path:"about-us",
-                element:(
-                    <Suspense fallback="loading please wait..">
-                      <AboutUs />
-                    </Suspense>
-                  ),
-            },
-            {
-                path:"login",
-                element:(
-                    <Suspense fallback="loading please wait..">
-                      <Login />
-                    </Suspense>
-                  ),
-            },
-            {
-                path:"register",
-                element:(
-                    <Suspense fallback="loading please wait..">
-                      <Register />
-                    </Suspense>
-                  ),
-            },
-            {
-                path:"cart",
-                element:(
-                    <Suspense fallback="loading please wait..">
-                      <Cart />
-                    </Suspense>
-                  ),
-            },
-            {
-                path:"wishlist",
-                element:(
-                    <Suspense fallback="loading please wait..">
-                      <Wishlist />
-                    </Suspense>
-                  ),
-            }
-        ]
+          },
+          {
+            path: "about-us",
+            element: (
+              <PageSuspenseFallback>
+                <AboutUs />
+              </PageSuspenseFallback>
+            ),
+          },
+          {
+            path: "login",
+            element: (
+              <PageSuspenseFallback>
+                <Login />
+              </PageSuspenseFallback>
+            ),
+          },
+          {
+            path: "register",
+            element: (
+              <PageSuspenseFallback>
+                <Register />
+              </PageSuspenseFallback>
+            ),
+          },
+        ],
     }
 ]);
 const AppRouter = () => {

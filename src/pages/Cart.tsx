@@ -8,7 +8,7 @@ const Cart = () => {
   return (
     <>
       <Heading title="My Cart"/>
-      <Loading status={loading} error={error}>
+      <Loading status={loading} error={error} type="cart">
         {cartItemsFullInfo.length >0 ?(
           <>
             <CartItemList cartItems={cartItemsFullInfo} changeQuantityHandler={changeQuantityHandler} removeITemHandler={removeITemHandler}/>

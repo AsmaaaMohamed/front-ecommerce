@@ -11,8 +11,8 @@ const Products = () => {
     <>
       <Heading title={`${productPrefix?.toUpperCase()} Products`} />
       <Container>
-        <Loading status={loading} error={error}>
-          <GridList records={productsFullInfo} renderItem={(record)=>(<Product {...record}/>)}/>
+        <Loading status={loading} error={error} type="product">
+          <GridList records={productsFullInfo} renderItem={(record)=>(<Product {...record}/>)} emptyMessage="There are no products"/>
         </Loading>
       </Container>
     </>
